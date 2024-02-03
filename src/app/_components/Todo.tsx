@@ -8,7 +8,7 @@ interface TodoProps {
 
 export const Todo = ({ todo, deleteTodo, updateTodo } : TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
-  const inputRef = useRef(null);
+  const inputRef = useRef<HTMLInputElement>(null);
   const [input,setInput] = useState(todo?.content)
 
   const handleEditClick = () => {
