@@ -7,7 +7,7 @@ const createCaller = createCallerFactory(appRouter)
 export const serverClient = createCaller({
     links: [
         httpBatchLink({
-            url: "http://localhost:3000/api/trpc"
+            url: "https://next-to-dwxw8k2rl-farouk1511.vercel.app/api/trpc"
         })
     ]
 })
