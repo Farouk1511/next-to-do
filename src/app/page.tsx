@@ -101,7 +101,7 @@ export default function Home() {
 
       <div className="p-3">
 
-      <p className="mt-3 text-sm"> * If u get this pre link write a todo with you name or alias *</p>
+      <p className="mt-3 text-sm"> * If u get this pre link write a todo with your name or alias *</p>
       </div>
 
       {mutation.error && <p>Something went wrong! {mutation.error.message}</p>}
