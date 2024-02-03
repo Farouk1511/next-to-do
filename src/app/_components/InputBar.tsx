@@ -1,14 +1,14 @@
 import React from "react";
 
 interface InputBarProps {
-  addTodoList:any;
-  setInput:any;
-  input:any ;
+  addTodoList: any;
+  setInput: any;
+  input: any;
 }
 
-const InputBar = ({ addTodoList, setInput, input }:InputBarProps) => {
-  const handleKeyDown = (event:any) => {
-    if (event.key === "Enter") {
+const InputBar = ({ addTodoList, setInput, input }: InputBarProps) => {
+  const handleKeyDown = (event: any) => {
+    if (event.key === "Enter" && event.target.value !== "") {
       addTodoList();
     }
   };
@@ -21,7 +21,7 @@ const InputBar = ({ addTodoList, setInput, input }:InputBarProps) => {
         value={input}
         onChange={(e) => {
           e.preventDefault();
-          setInput(e.target.value);
+          if (e.target.value !== "") setInput(e.target.value);
         }}
         onKeyDown={handleKeyDown}
       />

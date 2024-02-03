@@ -21,7 +21,6 @@ export const appRouter = router({
     .input(
       z.object({
         content: z.string(),
-        progress: z.string(),
       })
     )
     .mutation(async (opts) => {
@@ -31,7 +30,7 @@ export const appRouter = router({
       // createdAt: timestamp("created_at").defaultNow(),
       await db
         .insert(todo)
-        .values({ content: opts.input.content, progress: opts.input.progress });
+        .values({ content: opts.input.content });
 
       return true;
     }),
@@ -58,6 +57,17 @@ export const appRouter = router({
       const updatedTodo = await db
         .update(todo)
         .set({ content: opts.input.content })
+        .where(eq(todo.id, opts.input.id));
+
+        return updatedTodo
+    }),
+  updateTodoProgress: publicProcedure
+    .input(z.object({ progress: z.boolean(), id: z.number() }))
+    .mutation(async (opts) => {
+      //update the progress where id = opts.input.id
+      const updatedTodo = await db
+        .update(todo)
+        .set({ progress: opts.input.progress })
         .where(eq(todo.id, opts.input.id));
 
         return updatedTodo

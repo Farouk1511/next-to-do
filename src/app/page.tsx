@@ -16,7 +16,7 @@ import { getAuth } from "@clerk/nextjs/server";
 interface Todo {
   id?: number;
   content: string;
-  progress: string;
+  progress?: boolean;
 }
 
 
@@ -44,12 +44,20 @@ export default function Home() {
     },
   });
 
+  const updateProgressMutation = trpc.updateTodoProgress.useMutation({
+    onSettled(data, error, variables, context) {
+      getTodo.refetch();
+    },
+  });
+  
+
+
+
   const [input, setInput] = useState("");
 
   const addTodoList = () => {
     const todoObj: Todo = {
       content: input,
-      progress: "Inprogress",
     };
 
     mutation.mutate(todoObj);
@@ -63,6 +71,16 @@ export default function Home() {
   const updateTodo = (id: number, content: string) => {
     updateMutation.mutate({ id, content });
   };
+  const updateTodoProgress = (id: number, progress: boolean) => {
+    updateProgressMutation.mutate({ id, progress });
+  };
+
+  function sortObjectsByProgress(inputArray:Todo[]) {
+    return inputArray?.sort((a, b) => (a.progress === b.progress ? 0 : a.progress ? 1 : -1));;
+  }
+  function filterObjectsByProgress(inputArray:Todo[]) {
+    return inputArray?.filter(obj => obj.progress === true);
+  }
 
   const { isLoaded, userId, sessionId, getToken } = useAuth();
 
@@ -89,7 +107,7 @@ export default function Home() {
           </div>
 
           <div className="rounded-full w-28 sm:w-16 md:w-24 h-28 sm:h-16 md:h-24 flex items-center justify-center bg-orange-700 text-xl sm:text-lg md:text-4xl font-extrabold text-black">
-            {data?.length! > 0 ? `0/${data?.length}` : "-"}
+            {data?.length! > 0 ? `${filterObjectsByProgress(data!).length}/${data?.length}` : "-"}
           </div>
         </div>
       </div>
@@ -109,12 +127,13 @@ export default function Home() {
       {/* TO DO LIST */}
       <div className="mt-6 sm:mt-8 md:mt-12 w-full flex items-center justify-center flex-col space-y-4">
         {isLoading && <p>Loading...</p>}
-        {data?.map((todo: Todo) => (
+        {sortObjectsByProgress(data!)?.map((todo: Todo) => (
           <Todo
             todo={todo}
             deleteTodo={deleteTodo}
             key={todo.id}
             updateTodo={updateTodo}
+            updateTodoProgress={updateTodoProgress}
           />
         ))}
       </div>
