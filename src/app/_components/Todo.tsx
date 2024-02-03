@@ -1,6 +1,12 @@
 import React, { useEffect, useRef, useState } from "react";
 
-export const Todo = ({ todo, deleteTodo, updateTodo }) => {
+interface TodoProps {
+    todo: any;
+    deleteTodo:any;
+    updateTodo: any;
+}
+
+export const Todo = ({ todo, deleteTodo, updateTodo } : TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef(null);
   const [input,setInput] = useState(todo?.content)

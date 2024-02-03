@@ -1,7 +1,13 @@
 import React from "react";
 
-const InputBar = ({ addTodoList, setInput, input }) => {
-  const handleKeyDown = (event) => {
+interface InputBarProps {
+  addTodoList:any;
+  setInput:any;
+  input:any ;
+}
+
+const InputBar = ({ addTodoList, setInput, input }:InputBarProps) => {
+  const handleKeyDown = (event:any) => {
     if (event.key === "Enter") {
       addTodoList();
     }
