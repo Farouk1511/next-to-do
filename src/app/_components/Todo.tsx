@@ -1,15 +1,15 @@
 import React, { useEffect, useRef, useState } from "react";
 
 interface TodoProps {
-    todo: any;
-    deleteTodo:any;
-    updateTodo: any;
+  todo: any;
+  deleteTodo: any;
+  updateTodo: any;
 }
 
-export const Todo = ({ todo, deleteTodo, updateTodo } : TodoProps) => {
+export const Todo = ({ todo, deleteTodo, updateTodo }: TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
-  const [input,setInput] = useState(todo?.content)
+  const [input, setInput] = useState(todo?.content);
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -34,7 +34,7 @@ export const Todo = ({ todo, deleteTodo, updateTodo } : TodoProps) => {
   return (
     <div
       key={todo?.id}
-      className="border w-1/3 rounded-lg border-slate-500 flex justify-between items-center p-4 flex-grow"
+      className="border w-11/12 rounded-lg border-slate-500 flex justify-between items-center p-4 flex-grow"
     >
       {/* <div className="flex items-center justify-center">
               <div className="w-8 h-8 rounded-full border-orange-700 border mr-3"></div>
@@ -44,19 +44,21 @@ export const Todo = ({ todo, deleteTodo, updateTodo } : TodoProps) => {
       <div className="flex items-center  w-full mr-3">
         <div className="w-8 h-8 rounded-full border-orange-700 border mr-3"></div>
 
-        {isEditing ? (
-          <input
-            ref={inputRef}
-            type="text"
-            className="bg-transparent outline-none border-transparent p-1 rounded w-3/4"
-            value={input}
-            onChange={(e) => {
-              setInput(e.target.value)
-            }}
-          />
-        ) : (
-          <p className="break-all overflow-hidden">{todo?.content}</p>
-        )}
+        <div>
+          {isEditing ? (
+            <input
+              ref={inputRef}
+              type="text"
+              className="bg-transparent outline-none border-transparent p-1 rounded w-3/4"
+              value={input}
+              onChange={(e) => {
+                setInput(e.target.value);
+              }}
+            />
+          ) : (
+            <p className="break-all overflow-hidden">{todo?.content}</p>
+          )}
+        </div>
 
         {/* <button
                   className="ml-2 px-2 py-1 bg-blue-500 text-white rounded"
