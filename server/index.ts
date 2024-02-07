@@ -8,7 +8,7 @@ export const appRouter = router({
   // expose CRUD funtions for Todo app
   getTodo: publicProcedure.query(async () => {
     try {
-      const data = (await db.select().from(todo)).reverse();
+      const data = (await db.select().from(todo).orderBy(todo.createdAt)).reverse();
       return data;
     } catch (error) {
       console.error("Error executing query:", error);

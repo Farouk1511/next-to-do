@@ -1,22 +1,20 @@
+"use client";
+
 import React, { useEffect, useRef, useState } from "react";
+import { trpc } from "../_trpc/client";
+import { redirect } from "next/navigation";
+import { deleteTodo, updateTodo, updateTodoProgress } from "../actions";
 
 interface TodoProps {
   todo: any;
-  deleteTodo: any;
-  updateTodo: any;
-  updateTodoProgress: any;
 }
 
-export const Todo = ({
-  todo,
-  deleteTodo,
-  updateTodo,
-  updateTodoProgress,
-}: TodoProps) => {
+export const Todo = ({ todo }: TodoProps) => {
   const [isEditing, setIsEditing] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const [input, setInput] = useState(todo?.content);
   const [progress, setProgress] = useState(todo?.progress);
+
 
   const handleEditClick = () => {
     setIsEditing(true);
@@ -46,7 +44,7 @@ export const Todo = ({
   useEffect(() => {
     updateTodoProgress(todo.id, progress);
     setIsEditing(false);
-  },[progress,todo.id]);
+  }, [progress, todo.id]);
 
   return (
     <div
@@ -58,13 +56,13 @@ export const Todo = ({
 
         <p className="line-through">Task 2</p>
       </div> */}
-      <div className="flex items-center w-full mr-3">
         <div
-          className={`w-8 h-8 rounded-full ${
+          className={`w-8 h-8 max-h-8 max-w-8 block rounded-full ${
             progress ? "bg-green-500" : "border-orange-700"
           } border mr-3`}
           onClick={handleProgressClick}
         ></div>
+      <div className="flex items-center w-full mr-3">
 
         <div>
           {isEditing ? (
@@ -78,13 +76,17 @@ export const Todo = ({
               }}
             />
           ) : (
+            <div>
             <p
               className={`break-all overflow-hidden ${
                 progress ? "line-through" : ""
               }`}
-            >
+              >
               {todo?.content}
             </p>
+            <p>{todo?.createdAt.toString()}</p>
+            
+              </div>
           )}
         </div>
 
